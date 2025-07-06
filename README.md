@@ -96,6 +96,7 @@ Demonstrates how to enforce **Multi-Factor Authentication (MFA)** for a sensitiv
 
 
 ##  Built By
-This project is part of my journey to transition from beginner to **Cloud Security Engineer**. I’ll be adding new modules, writing blog posts, and sharing insights along the way.
+
+This project is part of my journey to transition from beginner to **Cloud Security Engineer**, targeting roles at top cybersecurity companies like Zscaler. I’ll be adding new modules, writing blog posts, and sharing insights along the way.
 
 Stay tuned — and feel free to fork, learn, or contribute 🔐
