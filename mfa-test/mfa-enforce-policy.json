@@ -1,0 +1,31 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "BlockMostAccessUnlessMFAAuthenticated",
+      "Effect": "Deny",
+      "NotAction": [
+        "iam:ListVirtualMFADevices",
+        "iam:ListAccountAliases",
+        "iam:ListUsers",
+        "iam:ListSSHPublicKeys",
+        "iam:ListAccessKeys",
+        "iam:ListServiceSpecificCredentials",
+        "iam:ListMFADevices",
+        "iam:ListGroups",
+        "iam:ListRoles",
+        "sts:GetSessionToken",
+        "iam:GetUser",
+        "iam:CreateVirtualMFADevice",
+        "iam:EnableMFADevice",
+        "iam:ListUserTags"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "BoolIfExists": {
+          "aws:MultiFactorAuthPresent": "false"
+        }
+      }
+    }
+  ]
+}

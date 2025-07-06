@@ -52,37 +52,50 @@ The second part of this project focused on deploying a Lambda function as `dev-u
 
 ---
 
-##  Takeaways
+### ✅ `mfa-test/` – Enforcing MFA on High-Privilege Users  
+Demonstrates how to enforce **Multi-Factor Authentication (MFA)** for a sensitive IAM user (`admin-user`) using a conditional deny policy.
 
-- IAM follows the **principle of least privilege** — everything is denied unless explicitly allowed  
-- Real devs often don’t have permission to create roles — roles should be pre-created by admins  
-- You can only learn these things by trying, breaking, and fixing  
-- Even common permissions like `iam:PassRole` are easy to miss
+- Created custom policy using `aws:MultiFactorAuthPresent`
+- Attached it directly to `admin-user`
+- Verified that service access was denied until MFA was configured
+- Set up virtual MFA using Google Authenticator
+- After login with MFA, access was restored to IAM, Lambda, EC2, etc.
 
----
-
-##  What's Next
-
-This repo will be updated regularly with new IAM-related labs, including:
-- MFA setup and policy enforcement
-- S3 bucket access with granular permissions
-- Custom IAM policies from scratch
-- Role chaining and federated identity
-- CloudTrail monitoring for audit analysis
+📄 [Full write-up](mfa-test/results.md)  
+📸 [Screenshots](mfa-test/screenshots/)  
+📜 [Policy JSON](mfa-test/mfa-enforce-policy.json)
 
 ---
 
-##  Who This Is For
+## 💡 Key Takeaways So Far
 
-- Anyone preparing for **AWS SAA / Security+ / Cybersec roles**
-- Developers or beginners trying to get comfortable with IAM
-- Cloud security aspirants who want **real projects** in their portfolio
-- Anyone tired of just reading and wants to **build and break** things
+- IAM is **deny by default** — every action must be explicitly allowed
+- Even basic operations like creating Lambda require chained permissions
+- **`iam:PassRole`**, **`iam:ListRoles`**, and **`lambda:CreateFunction`** are easy to miss but critical
+- MFA enforcement is best handled via a **conditional deny policy**
+- You won’t truly understand IAM until you simulate and debug it yourself
+
 
 ---
+
+## 🧩 Planned Test Modules
+
+| Module Name              | Description                                                             | Status |
+|--------------------------|-------------------------------------------------------------------------|--------|
+| `lambda-test/`           | IAM roles and Lambda deployment with least privilege                   | ✅ Done |
+| `mfa-test/`              | Enforce MFA before allowing console/API access for high-privilege users | ✅ Done |
+| `s3-test/`               | Control S3 access via IAM + bucket policies                             | ⏳ Next |
+| `custom-policy-test/`    | Write scoped IAM policies manually                                      | 🔜     |
+| `sts-test/`              | Use STS to assume roles with temporary credentials                     | 🔜     |
+| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs                                | 🔜     |
+
+---
+
+---
+
+
 
 ##  Built By
-
-This project is part of my journey to transition from beginner to **Cloud Security Engineer**, targeting roles at top cybersecurity companies like Zscaler. I’ll be adding new modules, writing blog posts, and sharing insights along the way.
+This project is part of my journey to transition from beginner to **Cloud Security Engineer**. I’ll be adding new modules, writing blog posts, and sharing insights along the way.
 
 Stay tuned — and feel free to fork, learn, or contribute 🔐
