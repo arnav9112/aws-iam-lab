@@ -67,6 +67,21 @@ Demonstrates how to enforce **Multi-Factor Authentication (MFA)** for a sensitiv
 
 ---
 
+### ✅ `s3-test/` – IAM + S3 Bucket Policy Enforcement
+
+Demonstrates how to restrict S3 access using both IAM and bucket policies.
+
+- Initially, `dev-user` had no S3 permissions → AccessDenied
+- Created a custom IAM policy scoped to only `demo-aws-bucket121`
+- Allowed `PutObject`, `GetObject`, and `ListBucket`, but denied deletes
+- Added an S3 bucket policy to **deny unencrypted (non-HTTPS) uploads**
+- Verified the bucket policy works and CLI defaults to secure uploads
+
+📄 [Full write-up](s3-test/results.md)  
+📸 [Screenshots](s3-test/screenshots/)  
+📜 [Policy JSONs](s3-test/s3-access-policy.json & s3-test/bucket-policy.json)
+
+---
 ## 💡 Key Takeaways So Far
 
 - IAM is **deny by default** — every action must be explicitly allowed
@@ -74,6 +89,8 @@ Demonstrates how to enforce **Multi-Factor Authentication (MFA)** for a sensitiv
 - **`iam:PassRole`**, **`iam:ListRoles`**, and **`lambda:CreateFunction`** are easy to miss but critical
 - MFA enforcement is best handled via a **conditional deny policy**
 - You won’t truly understand IAM until you simulate and debug it yourself
+- **S3 access is layered** — IAM policies define who can access, while **bucket policies** control how and from where
+- Use IAM for identity control and bucket policies for **resource-level security constraints**
 
 
 ---
@@ -84,10 +101,10 @@ Demonstrates how to enforce **Multi-Factor Authentication (MFA)** for a sensitiv
 |--------------------------|-------------------------------------------------------------------------|--------|
 | `lambda-test/`           | IAM roles and Lambda deployment with least privilege                   | ✅ Done |
 | `mfa-test/`              | Enforce MFA before allowing console/API access for high-privilege users | ✅ Done |
-| `s3-test/`               | Control S3 access via IAM + bucket policies                             | ⏳ Next |
+| `s3-test/`               | Control S3 access via IAM + bucket policies                             | ✅ Done |
 | `custom-policy-test/`    | Write scoped IAM policies manually                                      | 🔜     |
-| `sts-test/`              | Use STS to assume roles with temporary credentials                     | 🔜     |
-| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs                                | 🔜     |
+| `sts-test/`              | Use STS to assume roles with temporary credentials                      | 🔜     |
+| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs            
 
 ---
 
@@ -97,6 +114,6 @@ Demonstrates how to enforce **Multi-Factor Authentication (MFA)** for a sensitiv
 
 ##  Built By
 
-This project is part of my journey to transition from beginner to **Cloud Security Engineer**, targeting roles at top cybersecurity companies like Zscaler. I’ll be adding new modules, writing blog posts, and sharing insights along the way.
+This project is part of my journey to transition from beginner to **Cloud Security Engineer**. I’ll be adding new modules, writing blog posts, and sharing insights along the way.
 
 Stay tuned — and feel free to fork, learn, or contribute 🔐
