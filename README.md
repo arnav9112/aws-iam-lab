@@ -82,29 +82,53 @@ Demonstrates how to restrict S3 access using both IAM and bucket policies.
 📜 [Policy JSONs](s3-test/s3-access-policy.json & s3-test/bucket-policy.json)
 
 ---
-## 💡 Key Takeaways So Far
+### ✅ `custom-policy-test/` – Handwritten Least Privilege IAM Policy
 
-- IAM is **deny by default** — every action must be explicitly allowed
-- Even basic operations like creating Lambda require chained permissions
-- **`iam:PassRole`**, **`iam:ListRoles`**, and **`lambda:CreateFunction`** are easy to miss but critical
-- MFA enforcement is best handled via a **conditional deny policy**
-- You won’t truly understand IAM until you simulate and debug it yourself
-- **S3 access is layered** — IAM policies define who can access, while **bucket policies** control how and from where
-- Use IAM for identity control and bucket policies for **resource-level security constraints**
+This module demonstrates how to **manually write a custom IAM policy** that grants just enough access for a realistic EC2-read use case.
+
+- `analyst-user` started with **no EC2 access**  
+- Created a policy allowing only:
+  - `ec2:DescribeInstances` – view instance-level metadata  
+  - `ec2:DescribeTags` – view associated tags  
+  - `ec2:DescribeImages` – view AMIs used to launch instances  
+- Attached policy to `Analysts` group  
+- Verified:
+  - ✅ Can list EC2 instances  
+  - ✅ Can view metadata and AMI details  
+  - ❌ Cannot launch, terminate, or modify instances  
+- Tested both in Console and AWS CloudShell
+
+📄 [Full write-up](custom-policy-test/results.md)  
+📸 [Screenshots](custom-policy-test/Screenshots/)  
+📜 [Policy JSON](custom-policy-test/analyst-ec2-read-policy.json)
+
+---
+
+---
+### 💡 Updated Key Takeaways
+
+- IAM is **deny by default** — all access must be explicitly granted  
+- Even for “read-only” roles, **write your own policies** instead of relying on AWS managed ones  
+- **`ec2:DescribeInstances`**, `DescribeTags`, and `DescribeImages` can be useful for analysts and dashboards  
+- AWS CloudShell is a lightweight tool to validate permissions quickly  
+- MFA should be enforced using a **conditional deny approach**  
+- IAM is for user/group permissions; **S3 bucket policies** enforce transport conditions and public access control
 
 
 ---
 
 ## 🧩 Planned Test Modules
 
+### 🧩 Planned Test Modules (Updated)
+
 | Module Name              | Description                                                             | Status |
 |--------------------------|-------------------------------------------------------------------------|--------|
 | `lambda-test/`           | IAM roles and Lambda deployment with least privilege                   | ✅ Done |
 | `mfa-test/`              | Enforce MFA before allowing console/API access for high-privilege users | ✅ Done |
 | `s3-test/`               | Control S3 access via IAM + bucket policies                             | ✅ Done |
-| `custom-policy-test/`    | Write scoped IAM policies manually                                      | 🔜     |
+| `custom-policy-test/`    | Write scoped IAM policies manually                                      | ✅ Done |
 | `sts-test/`              | Use STS to assume roles with temporary credentials                      | 🔜     |
-| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs            
+| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs          
 
 ---
 
