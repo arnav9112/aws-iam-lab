@@ -105,7 +105,38 @@ This module demonstrates how to **manually write a custom IAM policy** that gran
 ---
 
 ---
-### 💡 Updated Key Takeaways
+### ✅ `sts-test`/ – Role Assumption Using STS (Security Token Service)
+
+This module demonstrates how IAM roles and AWS STS work together to grant temporary, limited access to a user who otherwise has no direct permission to perform the action.
+
+- Created audit-user with no EC2 access
+
+- Created a new role: AuditAccessRole
+
+- Trust policy allows only audit-user to assume it
+
+- Inline policy grants: ec2:DescribeInstances only
+
+- As audit-user, tested EC2 describe → ❌ AccessDenied
+
+- Then ran aws sts assume-role to assume the AuditAccessRole
+
+- Exported temporary credentials into session
+
+- Ran EC2 describe again → ✅ Success!
+
+This showcases least privilege, temporary credentials, and the separation of identity from permissions using IAM roles.
+
+📄 Full write-up(sts-test/results.md)
+📸 Screenshots (sts-test/screenshots)
+📜 Trust Policy (sts-test/trust-policy.json)
+📜 Inline Role Policy (sts-test/ec2-inline-policy.json)
+📄 CLI Commands Used (sts-test/assume-role-commands.md)
+
+---
+
+---
+### 💡 Key Takeaways
 
 - IAM is **deny by default** — all access must be explicitly granted  
 - Even for “read-only” roles, **write your own policies** instead of relying on AWS managed ones  
@@ -113,6 +144,8 @@ This module demonstrates how to **manually write a custom IAM policy** that gran
 - AWS CloudShell is a lightweight tool to validate permissions quickly  
 - MFA should be enforced using a **conditional deny approach**  
 - IAM is for user/group permissions; **S3 bucket policies** enforce transport conditions and public access control
+- Roles decouple identity and permissions – they can be assumed by users temporarily, allowing scoped and time-bound access via STS
+- Trust policies define who can assume a role; permissions policies define what that role can do
 
 
 ---
@@ -121,14 +154,15 @@ This module demonstrates how to **manually write a custom IAM policy** that gran
 
 ### 🧩 Planned Test Modules (Updated)
 
-| Module Name              | Description                                                             | Status |
-|--------------------------|-------------------------------------------------------------------------|--------|
-| `lambda-test/`           | IAM roles and Lambda deployment with least privilege                   | ✅ Done |
-| `mfa-test/`              | Enforce MFA before allowing console/API access for high-privilege users | ✅ Done |
-| `s3-test/`               | Control S3 access via IAM + bucket policies                             | ✅ Done |
-| `custom-policy-test/`    | Write scoped IAM policies manually                                      | ✅ Done |
-| `sts-test/`              | Use STS to assume roles with temporary credentials                      | 🔜     |
-| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs          
+| Module Name              | Description                                                             | Status   |
+|--------------------------|-------------------------------------------------------------------------|----------|
+| `lambda-test/`           | IAM roles and Lambda deployment with least privilege                   | ✅ Done  |
+| `mfa-test/`              | Enforce MFA before allowing console/API access for high-privilege users | ✅ Done  |
+| `s3-test/`               | Control S3 access via IAM + bucket policies                             | ✅ Done  |
+| `custom-policy-test/`    | Write scoped IAM policies manually                                      | ✅ Done  |
+| `sts-test/`              | Use STS to assume roles with temporary credentials                      | ✅ Done  |
+| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs                                | 🔜 Planned |
+    
 
 ---
 
