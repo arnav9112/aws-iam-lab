@@ -134,25 +134,32 @@ This showcases least privilege, temporary credentials, and the separation of ide
 📄 CLI Commands Used (sts-test/assume-role-commands.md)
 
 ---
+### ✅ `cloudtrail-test/` – Tracking IAM Activity with Logs
+
+- Created a CloudTrail trail to log IAM activity  
+- Simulated events: AssumeRole, policy attach/detach, user create/delete, MFA deactivation  
+- Verified logs in both CloudTrail console and S3 (JSON format)  
+- Cleaned up the trail and logs after test  
+
+📄 [Write-up](cloudtrail-test/results.md)  
+📸 [Screenshots](cloudtrail-test/screenshots/)  
+
 
 ---
-### 💡 Key Takeaways
+## 💡 Key Takeaways
 
 - IAM is **deny by default** — all access must be explicitly granted  
 - Even for “read-only” roles, **write your own policies** instead of relying on AWS managed ones  
-- **`ec2:DescribeInstances`**, `DescribeTags`, and `DescribeImages` can be useful for analysts and dashboards  
-- AWS CloudShell is a lightweight tool to validate permissions quickly  
-- MFA should be enforced using a **conditional deny approach**  
-- IAM is for user/group permissions; **S3 bucket policies** enforce transport conditions and public access control
-- Roles decouple identity and permissions – they can be assumed by users temporarily, allowing scoped and time-bound access via STS
-- Trust policies define who can assume a role; permissions policies define what that role can do
+- Use conditional denies for **MFA enforcement**  
+- **Roles decouple identity from permissions** and allow temporary scoped access  
+- **STS** is great for delegation without long-term access keys  
+- IAM policies govern users; **bucket policies and trust policies** govern resources and roles  
+- **CloudTrail** is essential for **audit logging**, visibility, and security investigations 
 
 
 ---
 
-## 🧩 Planned Test Modules
-
-### 🧩 Planned Test Modules (Updated)
+## 🧩 Module Summary
 
 | Module Name              | Description                                                             | Status   |
 |--------------------------|-------------------------------------------------------------------------|----------|
@@ -161,8 +168,7 @@ This showcases least privilege, temporary credentials, and the separation of ide
 | `s3-test/`               | Control S3 access via IAM + bucket policies                             | ✅ Done  |
 | `custom-policy-test/`    | Write scoped IAM policies manually                                      | ✅ Done  |
 | `sts-test/`              | Use STS to assume roles with temporary credentials                      | ✅ Done  |
-| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs                                | 🔜 Planned |
-    
+| `cloudtrail-test/`       | Track IAM activity using CloudTrail logs                                | ✅ Done  |
 
 ---
 
